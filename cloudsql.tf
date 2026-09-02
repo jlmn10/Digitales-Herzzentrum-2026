@@ -1,6 +1,6 @@
 # Cloud SQL plazieren: Private Database
 
-#Private IB- Domain for Cloud SQL
+#Private IP- Domain for Cloud SQL
 ressource "google_compute_global_address" "cloudsql_private_range" {
   name          = "cloudsql-private-range"
   purpose       = "VPC_PEERING"
