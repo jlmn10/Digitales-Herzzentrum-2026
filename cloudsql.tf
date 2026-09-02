@@ -5,7 +5,7 @@ ressource "google_compute_global_address" "cloudsql_private_range" {
   name          = "cloudsql-private-range"
   purpose       = "VPC_PEERING"
   address_type  = "INTERNAL"
-  prefix_length = 16"
+  prefix_length = 16
   network = google_compute_network.herzzentrum_vpc.id
 }
 
