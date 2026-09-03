@@ -1,12 +1,12 @@
 # Cloud SQL plazieren: Private Database
 
 #Private IP- Domain for Cloud SQL
-ressource "google_compute_global_address" "cloudsql_private_range" {
+resource "google_compute_global_address" "cloudsql_private_range" {
   name          = "cloudsql-private-range"
   purpose       = "VPC_PEERING"
   address_type  = "INTERNAL"
   prefix_length = 16
-  network = google_compute_network.herzzentrum_vpc.id
+  network       = google_compute_network.herzzentrum_vpc.id
 }
 
 # Private Services Access
@@ -29,7 +29,7 @@ resource "google_sql_database_instance" "herzzentrum_db" {
     google_service_networking_connection.cloudsql_private_connection
   ]
 
-settings {
+  settings {
     tier = "db-f1-micro"
 
     ip_configuration {
