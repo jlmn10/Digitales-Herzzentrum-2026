@@ -1,3 +1,5 @@
+# Terraform and Google Cloud provider configuration
+
 terraform {
   required_version = ">= 1.16.0"
 
@@ -8,6 +10,7 @@ terraform {
     }
   }
 }
+# Google Cloud project, region and zone settings
 
 provider "google" {
   project = var.project_id

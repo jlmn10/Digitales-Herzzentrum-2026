@@ -1,3 +1,5 @@
+# Required Google Cloud APIs
+
 locals {
   required_apis = [
     "compute.googleapis.com",
@@ -9,6 +11,7 @@ locals {
     "iap.googleapis.com"
   ]
 }
+# Enable required APIs for the project
 
 resource "google_project_service" "required_apis" {
   for_each = toset(local.required_apis)

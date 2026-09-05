@@ -1,3 +1,5 @@
+# Custom VPC for the Digital Heart Center
+
 resource "google_compute_network" "herzzentrum_vpc" {
   name                    = "herzzentrum-vpc"
   auto_create_subnetworks = false
@@ -6,6 +8,7 @@ resource "google_compute_network" "herzzentrum_vpc" {
     google_project_service.required_apis
   ]
 }
+# Public subnet for externally reachable services
 
 resource "google_compute_subnetwork" "public_zone" {
   name          = "public-zone"
@@ -13,6 +16,7 @@ resource "google_compute_subnetwork" "public_zone" {
   region        = var.region
   network       = google_compute_network.herzzentrum_vpc.id
 }
+# Private subnet for internal services
 
 resource "google_compute_subnetwork" "private_zone" {
   name          = "private-zone"
