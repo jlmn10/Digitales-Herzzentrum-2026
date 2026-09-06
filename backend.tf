@@ -1,6 +1,4 @@
+# GCS backend configuration is provided by deploy.sh
 terraform {
-backend "gcs" {
-bucket = "digitales-herzzentrum-2026-tfstate"
-prefix = "terraform/state"
-}
+  backend "gcs" {}
 }
