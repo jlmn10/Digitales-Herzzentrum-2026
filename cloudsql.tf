@@ -21,10 +21,10 @@ resource "google_service_networking_connection" "cloudsql_private_connection" {
 
 # Cloud SQL PostgreSQL
 resource "google_sql_database_instance" "herzzentrum_db" {
-  name             = "herzzentrum-db"
-  database_version = "POSTGRES_15"
-  region           = "europe-west3"
-
+  name                = "herzzentrum-db"
+  database_version    = "POSTGRES_15"
+  region              = "europe-west3"
+  deletion_protection = false
   depends_on = [
     google_service_networking_connection.cloudsql_private_connection
   ]
@@ -37,7 +37,9 @@ resource "google_sql_database_instance" "herzzentrum_db" {
       ipv4_enabled = false
 
       # Cloud SQL via its own VPC
-      private_network = google_compute_network.herzzentrum_vpc.id
+      private_network    = google_compute_network.herzzentrum_vpc.id
+      allocated_ip_range = google_compute_global_address.cloudsql_private_range.name
+
     }
 
     # Automatic Backups
