@@ -1,5 +1,9 @@
+# Terraform state and exported state files
+
 .terraform/
 *.tfstate
 *.tfstate.*
 crash.log
 terraform.tfvars
+terraform-state*.json
+terraform-show.json
