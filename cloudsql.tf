@@ -30,7 +30,8 @@ resource "google_sql_database_instance" "herzzentrum_db" {
   ]
 
   settings {
-    tier = "db-f1-micro"
+    # Cloud SQL tier is defined through the db_tier variable
+    tier = var.db_tier
 
     ip_configuration {
       #No public IP-address
@@ -39,7 +40,7 @@ resource "google_sql_database_instance" "herzzentrum_db" {
       # Cloud SQL via its own VPC
       private_network    = google_compute_network.herzzentrum_vpc.id
       allocated_ip_range = google_compute_global_address.cloudsql_private_range.name
-      ssl_mode = "ENCRYPTED_ONLY"
+      ssl_mode           = "ENCRYPTED_ONLY"
 
     }
 

@@ -9,6 +9,12 @@ echo "=========================================="
 START_TIME=$(date +%s)
 
 PROJECT_ID=$(gcloud config get-value project 2>/dev/null)
+
+# Default Cloud SQL tier is db-f1-micro.
+# A stronger tier can be passed as the first script argument.
+DB_TIER="${1:-db-f1-micro}"
+
+# Separate Terraform state bucket for each GCP project
 STATE_BUCKET="${PROJECT_ID}-tfstate"
 
 if [ -z "$PROJECT_ID" ] || [ "$PROJECT_ID" = "(unset)" ]; then
@@ -22,6 +28,7 @@ echo ""
 echo "GCP-Projekt: $PROJECT_ID"
 echo "Region:      europe-west3"
 echo "Zone:        europe-west3-a"
+echo "DB Tier:     $DB_TIER"
 echo ""
 
 # 1. APIs aktivieren
@@ -44,6 +51,7 @@ gcloud services enable \
 echo "[2/6] Terraform State vorbereiten..."
 
 if ! gcloud storage buckets describe "gs://$STATE_BUCKET" >/dev/null 2>&1; then
+
     gcloud storage buckets create "gs://$STATE_BUCKET" \
         --project="$PROJECT_ID" \
         --location=europe-west3 \
@@ -101,7 +109,8 @@ echo "[6/6] Infrastruktur bereitstellen..."
 terraform apply \
     -auto-approve \
     -input=false \
-    -var="project_id=$PROJECT_ID"
+    -var="project_id=$PROJECT_ID" \
+    -var="db_tier=$DB_TIER"
 
 END_TIME=$(date +%s)
 DURATION=$((END_TIME - START_TIME))
@@ -111,6 +120,7 @@ echo "=========================================="
 echo " Disaster Recovery abgeschlossen"
 echo "=========================================="
 echo "Projekt: $PROJECT_ID"
+echo "DB Tier: $DB_TIER"
 echo "Dauer: ${DURATION} Sekunden"
 echo "Dauer: $((DURATION / 60)) Minuten $((DURATION % 60)) Sekunden"
 echo ""

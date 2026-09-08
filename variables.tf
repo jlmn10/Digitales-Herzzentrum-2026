@@ -20,3 +20,10 @@ variable "zone" {
   type        = string
   default     = "europe-west3-a"
 }
+
+# Cloud SQL machine type, configurable for performance testing
+
+variable "db_tier" {
+  type    = string
+  default = "db-f1-micro"
+}
